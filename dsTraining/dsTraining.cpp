@@ -2,14 +2,34 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include "LinkedList.h"
+
 using namespace std;
+typedef unsigned int uint;
+struct s {
+	int i;
+	float j;
+};
+
+int DoComparison(const void* ob1, const void* ob2)
+{
+	s* s1 = (s*)ob1;
+	s* s2 = (s*)ob2;
+
+	if (s1->i == s2->i)
+		return 0;
+	else if (s1->i < s2->i)
+		return -1;
+	else if (s1->i > s2->i)
+		return 1;
+}
+
+int (*comparer)(const void* ob1, const void* ob2) = nullptr;
+
 int main()
 {
-	struct s {
-		int i;
-		float j;
-	};
+	comparer = DoComparison;
 	s s1;
 	s s2;
 	s1.i = 10;
@@ -20,14 +40,10 @@ int main()
 	InsertAtEnd(reinterpret_cast<void*>(&s1));
 	InsertAtEnd(reinterpret_cast<void*>(&s2));
 	
-	auto a = new s;
-	auto b = new s;
-	a->i = 30;
-	a->j = 31.1;
-	b->i = 40;
-	b->j = 40.1;
-	InsertAtEnd(reinterpret_cast<void*>(a));
-	InsertAtEnd(reinterpret_cast<void*>(b));
+	s s3;
+	s3.i = 15;
+	s3.j = 15.5;
+	InsertBefore(reinterpret_cast<void*>(&s3), reinterpret_cast<void*>(&s2));
 
 
 	DisplayList();
@@ -48,14 +64,28 @@ int main()
 
 	//DisplayList();
 }
+struct Student {
+	uint id;
+	float cpi;
+	char* name;
+};
+void ReadStudentsData();
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void ReadStudentsData()
+{
+	char data[100];
+	char tab;
+	ifstream db("Students.txt", ios::in);
+	if (db.is_open()) {
+		while (!db.eof()) {
+			Student* s = new Student;
+			db >> s->id >> s->cpi;
+			db.get(tab);
+			db.getline(data, 100);
+			s->name = new char[strlen(data) + 1];
+			strcpy_s(s->name, strlen(data)+1, data);
+			cout <<s->id << " " << s->name << " " << s->cpi << endl;
+		}
+	}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+}

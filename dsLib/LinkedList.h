@@ -1,8 +1,10 @@
-#pragma once
 struct Node {
 	void* info;
 	Node* next;
 };
+
+// callback function for node comparison
+extern int (*comparer)(const void* ob1, const void* ob2);
 
 void InsertAtFront(void* info);
 void IncrementNodeCount();

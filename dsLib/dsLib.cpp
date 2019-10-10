@@ -2,9 +2,9 @@
 //
 
 #include <iostream>
-using namespace std;
 #include "LinkedList.h"
 #include "LLImpl.h"
+using namespace std;
 
 Node* CreateNode(void* info)
 {
@@ -50,9 +50,9 @@ void InsertBefore(void* info, const void* beforeInfo)
 {
 	Node* n = CreateNode(info);
 	Node* prev = nullptr;
-	Node* t = listHead;
-	for (int i = 0; t->next != nullptr; i++) {
-		if (t->info == beforeInfo)
+	Node* t = listHead->next;
+	for (int i = 0; t != nullptr; i++) {
+		if (comparer(t->info, beforeInfo) == 0)
 			break;
 		prev = t;
 		t = t->next;
