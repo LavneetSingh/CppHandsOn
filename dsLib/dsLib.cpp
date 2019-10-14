@@ -5,6 +5,8 @@
 #include "LinkedList.h"
 #include "LLImpl.h"
 using namespace std;
+int (*comparer)(const void* ob1, const void* ob2) = nullptr;
+void (*display)(const void* ob) = nullptr;
 
 Node* CreateNode(void* info)
 {
@@ -128,7 +130,7 @@ void DisplayList()
 	Node* c = listHead;
 	for (int i = 0; c->next != nullptr; i++) {
 		c = c->next;
-		cout << dec << c->info << ' ';
+		display(c->info);
 	}
 	cout << endl;
 	cout << endl;

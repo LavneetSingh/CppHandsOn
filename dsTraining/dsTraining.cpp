@@ -25,11 +25,31 @@ int DoComparison(const void* ob1, const void* ob2)
 		return 1;
 }
 
-int (*comparer)(const void* ob1, const void* ob2) = nullptr;
-
-int main()
+int DoComparison2(const void* ob1, const void* ob2)
 {
-	comparer = DoComparison;
+	s* s1 = (s*)ob1;
+	int i = (int)ob2;
+
+	if (s1->i == i)
+		return 0;
+	else if (s1->i < i)
+		return -1;
+	else if (s1->i > i)
+		return 1;
+}
+
+void DisplayItem(const void* ob)
+{
+	s* sp = (s*)ob;
+	cout << sp->i << " " << sp->j << endl;
+}
+
+
+void learnCallback()
+{
+	comparer = DoComparison2;
+	display = DisplayItem;
+
 	s s1;
 	s s2;
 	s1.i = 10;
@@ -43,7 +63,8 @@ int main()
 	s s3;
 	s3.i = 15;
 	s3.j = 15.5;
-	InsertBefore(reinterpret_cast<void*>(&s3), reinterpret_cast<void*>(&s2));
+	int j = 20;
+	InsertBefore(reinterpret_cast<void*>(&s3), reinterpret_cast<void*>(&j));
 
 
 	DisplayList();
@@ -64,13 +85,18 @@ int main()
 
 	//DisplayList();
 }
+
 struct Student {
 	uint id;
 	float cpi;
 	char* name;
 };
 void ReadStudentsData();
-
+int main()
+{
+	ReadStudentsData();
+	return 0;
+}
 void ReadStudentsData()
 {
 	char data[100];
