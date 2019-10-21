@@ -5,9 +5,13 @@
 #include "LinkedList.h"
 #include "LLImpl.h"
 using namespace std;
-int (*comparer)(const void* ob1, const void* ob2) = nullptr;
+//int (*comparer)(const void* ob1, const void* ob2) = nullptr;
 void (*display)(const void* ob) = nullptr;
 
+void SetComparer(int (*param)(const void* ob1, const void* ob2))
+{
+	comparer = param;
+}
 Node* CreateNode(void* info)
 {
 	Node* newOne = new Node;

@@ -4,7 +4,9 @@ struct Node {
 };
 
 // callback function for node comparison
-extern int (*comparer)(const void* ob1, const void* ob2);
+//extern int (*comparer)(const void* ob1, const void* ob2);
+void SetComparer(int (*param)(const void* ob1, const void* ob2));
+
 extern void (*display)(const void* ob);
 
 void InsertAtFront(void* info);

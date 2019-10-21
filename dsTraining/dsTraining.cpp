@@ -47,7 +47,8 @@ void DisplayItem(const void* ob)
 
 void learnCallback()
 {
-	comparer = DoComparison2;
+	//comparer = DoComparison;
+	SetComparer(DoComparison);
 	display = DisplayItem;
 
 	s s1;
@@ -110,7 +111,7 @@ void ReadStudentsData()
 			db.getline(data, 100);
 			s->name = new char[strlen(data) + 1];
 			strcpy_s(s->name, strlen(data)+1, data);
-			cout <<s->id << " " << s->name << " " << s->cpi << endl;
+			InsertAtEnd(reinterpret_cast<void*>(s));
 		}
 	}
 
